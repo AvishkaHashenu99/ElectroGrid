@@ -73,4 +73,20 @@ public class BreakdownService {
 		String output = breakdownObj.deleteBreakdown(breakdownID);
 		return output;
 	}
+	
+	// Update Breakdown Status
+
+		@PUT
+		@Path("/updateStatus")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.TEXT_PLAIN)
+		public String updateStatus(String breakdownStatusData) {
+			//Convert the input string to a JSON object 
+			JsonObject breakdownStatusObject = new JsonParser().parse(breakdownStatusData).getAsJsonObject();
+			//Read the values from the JSON object
+			String breakdownID = breakdownStatusObject.get("breakdownID").getAsString();
+			String status = breakdownStatusObject.get("status").getAsString();
+			String output = breakdownObj.updateStatus(breakdownID, status);
+			return output;
+		}
 }

@@ -35,3 +35,18 @@ ADD COLUMN date VARCHAR(45);
 
 ALTER TABLE breakdown
 ADD COLUMN status INT;
+
+ALTER TABLE breakdown
+ADD CONSTRAINT fk_status FOREIGN KEY(status) REFERENCES breakdown_status(value);
+
+
+--Breakdown_Status Table
+
+CREATE TABLE `electrogrid`.`breakdown_status` (
+  `value` INT NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`value`));
+
+INSERT INTO `electrogrid`.`breakdown_status` (`value`, `description`) VALUES ('0', 'Pending');
+INSERT INTO `electrogrid`.`breakdown_status` (`value`, `description`) VALUES ('1', 'Solving');
+INSERT INTO `electrogrid`.`breakdown_status` (`value`, `description`) VALUES ('2', 'Resolved');
