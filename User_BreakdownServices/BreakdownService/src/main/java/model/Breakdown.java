@@ -70,24 +70,26 @@ public class Breakdown {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Region</th><th>Description</th>" + "<th>Mobile Number</th>" + "<th>User</th>" + "<th>Date</th>"
+			output = "<table border='1'><tr><th>Region</th><th>Description</th>" + "<th>Mobile Number</th>" + "<th>Status</th>" + "<th>User</th>" + "<th>Date</th>"
 					+ "<th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from breakdown";
+			String query = "select b.*, u.username, bs.description from breakdown b INNER JOIN user u ON b.user = u.userID INNER JOIN breakdown_status bs ON b.status = bs.value ";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the rows in the result set
 			while (rs.next()) {
-				String breakdownID = Integer.toString(rs.getInt("breakdownID"));
-				String region = rs.getString("region");
-				String description = rs.getString("description");
-				String phone = rs.getString("phone");
-				String user = Integer.toString(rs.getInt("user"));
-				String date = rs.getString("date");
+				String breakdownID = Integer.toString(rs.getInt("b.breakdownID"));
+				String region = rs.getString("b.region");
+				String description = rs.getString("b.description");
+				String phone = rs.getString("b.phone");
+				String user = rs.getString("u.username");
+				String date = rs.getString("b.date");
+				String status = rs.getString("bs.description");
 				// Add into the html table
 				output += "<tr><td>" + region + "</td>";
 				output += "<td>" + description + "</td>";
 				output += "<td>" + phone + "</td>";
+				output += "<td>" + status + "</td>";
 				output += "<td>" + user + "</td>";
 				output += "<td>" + date + "</td>";
 				// buttons
@@ -151,6 +153,30 @@ public class Breakdown {
 			output = "Breakdown Complain Deleted Successfully";
 		} catch (Exception e) {
 			output = "Error while deleting the user account.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
+	public String updateStatus(String breakdownID, String status) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for updating status.";
+			}
+			// create a prepared statement
+			String query = "UPDATE breakdown SET status=? WHERE breakdownID=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setInt(1, Integer.parseInt(status));
+			preparedStmt.setInt(2, Integer.parseInt(breakdownID));
+			// execute the statement
+			preparedStmt.execute();
+			con.close();
+			output = "Breakdown Status Updated Successfully!";
+		} catch (Exception e) {
+			output = "Error while updating Breakdown Status.";
 			System.err.println(e.getMessage());
 		}
 		return output;
