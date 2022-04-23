@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import util.CalcUtility;
-import util.ConsumtionTable;
+import util.TableHtml;
 import util.DBHandler;
 
 public class Power_Consumption extends DBHandler{
@@ -16,7 +16,7 @@ public class Power_Consumption extends DBHandler{
 	//update 10.42 21/4/22
 
 	//insert items
-	public String insertItem(String ActNo, String currentReading, String date, String type, String readerID, String userID) {
+	public String insertConsumption(String ActNo, String currentReading, String date, String type, String readerID, String userID) {
 		String output = "";
 		try {
 			Connection con = getConnection();
@@ -84,7 +84,7 @@ public class Power_Consumption extends DBHandler{
 	}
 
 	//read table
-	public String readItems() {
+	public String readConsumption() {
 		String output = "";
 		try {
 			Connection con = getConnection();
@@ -92,7 +92,7 @@ public class Power_Consumption extends DBHandler{
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = ConsumtionTable.getHtml();
+			output = TableHtml.getHtml();
 			
 			String query = "select * from "+ tableName ;
 			Statement stmt = con.createStatement();
@@ -130,7 +130,7 @@ public class Power_Consumption extends DBHandler{
 
 	
 	//Update table
-	public String updateItem(String record, String ActNo, String currentReading, String date, String type, String readerID, String userID){
+	public String updateConsumption(String record, String ActNo, String currentReading, String date, String type, String readerID, String userID){
 		String output = "";
 		try
 		{
@@ -198,7 +198,7 @@ public class Power_Consumption extends DBHandler{
 		}
 		return output;
 	}
-	public String deleteItem(String recordID)
+	public String deleteConsumption(String recordID)
 	{
 		String output = "";
 		try

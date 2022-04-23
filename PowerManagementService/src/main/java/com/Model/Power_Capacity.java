@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import util.ConsumtionTable;
+import util.TableHtml;
 import util.DBHandler;
 
 public class Power_Capacity extends DBHandler{
@@ -15,7 +15,7 @@ public class Power_Capacity extends DBHandler{
 
 
 	//insert items
-	public String insertItem(String SupNo, String date, String Type, String units) {
+	public String insertCapacity(String SupNo, String date, String Type, String units) {
 		String output = "";
 		try {
 			Connection con = getConnection();
@@ -23,9 +23,10 @@ public class Power_Capacity extends DBHandler{
 				return "Error while connecting to the database";
 			}
 			
-			int noUnit = 0;  //do calculation { current reading - previous reading} noUnit = getResult(currentReading);
+			//int noUnit = 0;  //do calculation { current reading - previous reading} noUnit = getResult(currentReading);
 			
-			
+			//Split date into array [ YYYY, MM, DD ]
+			String[] dateArray = date.split("-");
 			
 			
 			//type selection query add constraints
@@ -34,7 +35,7 @@ public class Power_Capacity extends DBHandler{
 			
 			
 			//creating record id from date
-			String capacityID = SupNo+"MONTHYY"+Type;
+			String capacityID = "CID"+SupNo+dateArray[0]+dateArray[1];
 			
 			
 			
@@ -62,7 +63,7 @@ public class Power_Capacity extends DBHandler{
 		return output;
 	}
 
-	public String readItems() {
+	public String readCapacity() {
 		String output = "";
 		try {
 			Connection con = getConnection();
@@ -70,7 +71,7 @@ public class Power_Capacity extends DBHandler{
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = ConsumtionTable.getHtmlCapacity();
+			output = TableHtml.getHtmlCapacity();
 			
 			String query = "select * from "+ tableName ;
 			Statement stmt = con.createStatement();
@@ -102,7 +103,7 @@ public class Power_Capacity extends DBHandler{
 
 	
 	//Update table
-	public String updateItem(String capID, String SupNo, String date, String Type, String units){
+	public String updateCapacity(String capID, String SupNo, String date, String Type, String units){
 		String output = "";
 		try
 		{
@@ -113,6 +114,18 @@ public class Power_Capacity extends DBHandler{
 										
 			//type selection query add constraints
 			
+			//Split date into array [ YYYY, MM, DD ]
+			String[] dateArray = date.split("-");
+			
+			
+			//type selection query add constraints
+			
+			
+			
+			
+			//creating record id from date
+			String capacityID = "CID"+SupNo+dateArray[0]+dateArray[1];
+			
 			
 			
 			// create a prepared statement
@@ -120,7 +133,7 @@ public class Power_Capacity extends DBHandler{
 					+ " WHERE capacityID=?";
 							PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, capID);
+			preparedStmt.setString(1, capacityID);
 			preparedStmt.setString(2, date);
 			preparedStmt.setString(3, Type);
 			preparedStmt.setInt(4, Integer.parseInt(units));
@@ -140,7 +153,7 @@ public class Power_Capacity extends DBHandler{
 		}
 		return output;
 	}
-	public String deleteItem(String capacityID)
+	public String deleteCapacity(String capacityID)
 	{
 		String output = "";
 		try
