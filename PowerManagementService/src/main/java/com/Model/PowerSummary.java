@@ -9,7 +9,7 @@ import util.CalcUtility;
 import util.DBHandler;
 import util.TableHtml;
 
-public class PowerSummery extends DBHandler{
+public class PowerSummary extends DBHandler{
 	
 	
 	final static String Consumption = "power_consumption";
@@ -125,12 +125,12 @@ public class PowerSummery extends DBHandler{
 	}
 
 	
-	public String[] getSummeryArray(String key) {
+	public String[] getSummaryArray(String key) {
 		
 		String[] valueArr = new String[] {"error","Error while connecting to the database!"};
 		
-		int[] ConsumeUnits = PowerSummery.getSumConsumeUnits(key);
-		int[] SumCapacity = PowerSummery.getSumCapacity(key);
+		int[] ConsumeUnits = PowerSummary.getSumConsumeUnits(key);
+		int[] SumCapacity = PowerSummary.getSumCapacity(key);
 		
 		
 		//checking whether any errors when retrieving data from database
@@ -148,7 +148,7 @@ public class PowerSummery extends DBHandler{
 		int total = SumCapacity[1] - ConsumeUnits[1];
 		
 		String[] dateArray = key.split("-");
-		valueArr[1] = "<h3>Summery for "+CalcUtility.getMonthForInt(Integer.parseInt(dateArray[1])-1)+" " +dateArray[0]+ "</h3>";
+		valueArr[1] = "<h3>Summary for "+CalcUtility.getMonthForInt(Integer.parseInt(dateArray[1])-1)+" " +dateArray[0]+ "</h3>";
 		
 		valueArr[1] += "<ul> <li>Total number of unitpower capacity inserted to ElectroGrid by power suppliers: " +SumCapacity[1] +" kWh</li> "
 				+ "<li>Total number of unit consumed by user: "+ ConsumeUnits[1]+ " kWh</li> ";
@@ -167,7 +167,7 @@ public class PowerSummery extends DBHandler{
 	}
 	
 	
-	public String[] getAnnualSummeryTable(String key) {
+	public String[] getAnnualSummaryTable(String key) {
 		
 		String[] valueArr = new String[] {"error",""};
 		
@@ -175,16 +175,16 @@ public class PowerSummery extends DBHandler{
 		int[] ConsumeUnits;
 		int[] SumCapacity;
 		
-		valueArr[1] += "<h3>Summery for "+dateArray[0]+ " </h3>" +TableHtml.getHtmlSummery();
+		valueArr[1] += "<h3>Summary for "+dateArray[0]+ " </h3>" +TableHtml.getHtmlSummery();
 		
 		for(int i=1; i<=12; i++) {
 			if(i<9) {
-				ConsumeUnits = PowerSummery.getSumConsumeUnits(dateArray[0]+"-0"+i);
-				SumCapacity = PowerSummery.getSumCapacity(dateArray[0]+"-0"+i);
+				ConsumeUnits = PowerSummary.getSumConsumeUnits(dateArray[0]+"-0"+i);
+				SumCapacity = PowerSummary.getSumCapacity(dateArray[0]+"-0"+i);
 			}
 			else {
-				ConsumeUnits = PowerSummery.getSumConsumeUnits(dateArray[0]+"-"+i);
-				SumCapacity = PowerSummery.getSumCapacity(dateArray[0]+"-"+i);
+				ConsumeUnits = PowerSummary.getSumConsumeUnits(dateArray[0]+"-"+i);
+				SumCapacity = PowerSummary.getSumCapacity(dateArray[0]+"-"+i);
 			}
 			
 			

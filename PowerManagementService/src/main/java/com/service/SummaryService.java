@@ -6,21 +6,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.Model.PowerSummery;
+import com.Model.PowerSummary;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@Path("/getSummery")
-public class SummeryService {
-	PowerSummery Obj = new PowerSummery();
+@Path("/getSummary")
+public class SummaryService {
+	PowerSummary Obj = new PowerSummary();
 	
 	//reads
 	@GET
 	@Path("/monthly/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getSummery(String itemData)
+	public String getSummary(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -30,7 +30,7 @@ public class SummeryService {
 		
 
 		
-		String[] output = Obj.getSummeryArray(capID); 
+		String[] output = Obj.getSummaryArray(capID); 
 		return output[1];
 	}
 	
@@ -40,7 +40,7 @@ public class SummeryService {
 	@Path("/Annual/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getYearSummery(String itemData)
+	public String getYearSummary(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -50,7 +50,7 @@ public class SummeryService {
 		
 
 		
-		String[] output = Obj.getAnnualSummeryTable(capID); 
+		String[] output = Obj.getAnnualSummaryTable(capID); 
 		return output[1];
 	}
 }
