@@ -1,6 +1,6 @@
 package util;
 
-public class ConsumtionTable {
+public class TableHtml {
 	public static String getHtml() {
 		
 		// buttons
@@ -32,6 +32,21 @@ public class ConsumtionTable {
 					+ "<th>Source Type</th>"
 					+ "<th>No of Units</th>"
 					+ "<th>Supplier ID</th>"
+					+ "</tr>";
+		
+	}
+	
+	
+	public static String getHtmlSummery() {
+		
+		
+		return  "<table border='1'>"
+				+ "<tr>"
+					+"<th>Month</th>" 
+					+ "<th>Total Capacity Units<br>(KwH)</th>" 
+					+ "<th>Total Consume Units<br>(KwH)</th>"
+					+ "<th>Remaining</th>"
+					+ "<th>Extra units</th>"
 					+ "</tr>";
 		
 	}

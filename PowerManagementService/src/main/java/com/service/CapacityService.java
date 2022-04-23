@@ -24,9 +24,9 @@ public class CapacityService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readItems(){
+	public String readCapacity(){
 		
-		return Obj.readItems();
+		return Obj.readCapacity();
 	}
 	
 	
@@ -35,7 +35,7 @@ public class CapacityService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertItem(String itemData)
+	public String insertCapacity(String itemData)
 	{
 
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -47,7 +47,7 @@ public class CapacityService {
 
 	
 		
-		String output = Obj.insertItem(SupNo, date, Type, units); 
+		String output = Obj.insertCapacity(SupNo, date, Type, units); 
 		return output;
 	}
 	
@@ -57,7 +57,7 @@ public class CapacityService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateItem(String itemData)
+	public String updateCapacity(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -70,7 +70,7 @@ public class CapacityService {
 		
 
 		
-		String output = Obj.updateItem(capID, SupNo, date, Type, units); 
+		String output = Obj.updateCapacity(capID, SupNo, date, Type, units); 
 		return output;
 	}
 	
@@ -80,14 +80,14 @@ public class CapacityService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteItem(String itemData)
+	public String deleteCapacity(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 		//Read the values from the JSON object
 		
 		String recID = itemObject.get("capacityID").getAsString();
-		String output = Obj.deleteItem(recID);
+		String output = Obj.deleteCapacity(recID);
 		return output;
 	}
 }
