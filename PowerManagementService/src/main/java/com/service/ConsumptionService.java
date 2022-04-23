@@ -24,9 +24,9 @@ public class ConsumptionService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readItems(){
+	public String readConsumption(){
 		
-		return Obj.readItems();
+		return Obj.readConsumption();
 	}
 	
 	
@@ -35,7 +35,7 @@ public class ConsumptionService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertItem(String itemData)
+	public String insertConsumption(String itemData)
 	{
 
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -48,7 +48,7 @@ public class ConsumptionService {
 		String userID = itemObject.get("userID").getAsString();
 	
 		
-		String output = Obj.insertItem(ActNo, currentReading, date, type, readerID, userID); 
+		String output = Obj.insertConsumption(ActNo, currentReading, date, type, readerID, userID); 
 		return output;
 	}
 	
@@ -58,7 +58,7 @@ public class ConsumptionService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateItem(String itemData)
+	public String updateConsumption(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
@@ -74,7 +74,7 @@ public class ConsumptionService {
 		
 
 		
-		String output = Obj.updateItem(recID, ActNo, currentReading, date, type, readerID, userID); 
+		String output = Obj.updateConsumption(recID, ActNo, currentReading, date, type, readerID, userID); 
 		return output;
 	}
 	
@@ -84,14 +84,14 @@ public class ConsumptionService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteItem(String itemData)
+	public String deleteConsumption(String itemData)
 	{
 		//Convert the input string to a JSON object
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 		//Read the values from the JSON object
 		
 		String recID = itemObject.get("recordID").getAsString();
-		String output = Obj.deleteItem(recID);
+		String output = Obj.deleteConsumption(recID);
 		return output;
 	}
 }
