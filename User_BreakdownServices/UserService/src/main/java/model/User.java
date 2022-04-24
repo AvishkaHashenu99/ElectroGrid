@@ -20,7 +20,7 @@ public class User {
 		return con;
 	}
 
-	public String insertUser(String username, String password, String accountNumber, String address, String NIC, String phone, String reset_code) {
+	public String insertUser(String username, String password, String accountNumber, String address, String NIC, String phone, String reset_code, String userRole) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -28,8 +28,8 @@ public class User {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into user (`userID`,`username`,`password`,`accountNumber`,`address`,`NIC`,`phone`, `reset_code`)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = " insert into user (`userID`,`username`,`password`,`accountNumber`,`address`,`NIC`,`phone`, `reset_code`, `userRole`)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, 0);
@@ -40,6 +40,7 @@ public class User {
 			preparedStmt.setString(6, NIC);
 			preparedStmt.setString(7, phone);
 			preparedStmt.setString(8, reset_code);
+			preparedStmt.setString(9, userRole);
 			// execute the statement
 
 			preparedStmt.execute();
@@ -60,8 +61,7 @@ public class User {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Username</th><th>Account Number</th>" + "<th>Address</th>" + "<th>NIC</th>" + "<th>Phone</th>"
-					+ "<th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>Username</th><th>Account Number</th>" + "<th>Address</th>" + "<th>NIC</th>" + "<th>Phone</th>";
 
 			String query = "select * from user";
 			Statement stmt = con.createStatement();
@@ -80,11 +80,6 @@ public class User {
 				output += "<td>" + address + "</td>";
 				output += "<td>" + NIC + "</td>";
 				output += "<td>" + phone + "</td>";
-				// buttons
-				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
-						+ "<td><form method='post' action='items.jsp'>"
-						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-						+ "<input name='itemID' type='hidden' value='" + userID + "'>" + "</form></td></tr>";
 			}
 			con.close();
 			// Complete the html table
@@ -96,7 +91,7 @@ public class User {
 		return output;
 	}
 
-	public String updateUser(String userID, String username, String password, String accountNumber, String address, String NIC, String phone) {
+	public String updateUser(String userID, String username, String password, String accountNumber, String address, String NIC, String phone, String userRole) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -104,7 +99,7 @@ public class User {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE user SET username=?,password=?,accountNumber=?,address=?,NIC=?,phone=? WHERE userID=?";
+			String query = "UPDATE user SET username=?,password=?,accountNumber=?,address=?,NIC=?,phone=?, userRole=? WHERE userID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setString(1, username);
@@ -113,7 +108,8 @@ public class User {
 			preparedStmt.setString(4, address);
 			preparedStmt.setString(5, NIC);
 			preparedStmt.setString(6, phone);
-			preparedStmt.setInt(7, Integer.parseInt(userID));
+			preparedStmt.setString(7, userRole);
+			preparedStmt.setInt(8, Integer.parseInt(userID));
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
