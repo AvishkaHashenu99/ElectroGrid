@@ -76,8 +76,7 @@ public class Supplier {
 	      // Prepare the html table to be displayed 
 	      output = "<table border='1'><tr><th>Supplier ID</th><th>Supplier Name</th><th>Supplier Address</th>" + 
 	        "<th>Supplier NIC</th>" +  
-	        "<th>Supplier Phone</th>" + 
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Supplier Phone</th></tr>";   
 	     
 	      String query = "select * from power_supplier"; 
 	      Statement stmt = con.createStatement(); 
@@ -99,12 +98,6 @@ public class Supplier {
 	        output += "<td>" + NIC + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 	 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='suppliers.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='powerSupplierID' type='hidden' value='" + powerSupplierID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 	 
 	      con.close(); 
@@ -211,8 +204,7 @@ public class Supplier {
 	      // Prepare the html table to be displayed 
 	      output = "<table border='1'><tr><th>Supplier ID</th><th>Supplier Name</th><th>Supplier Address</th>" + 
 	        "<th>Supplier NIC</th>" +  
-	        "<th>Supplier Phone</th>" + 
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Supplier Phone</th></tr>";   
 	     
 	      String query = "select * from power_supplier where powerSupplierID='"+powerSupplierId+"'"; 
 	      Statement stmt = con.createStatement(); 
@@ -234,12 +226,6 @@ public class Supplier {
 	        output += "<td>" + NIC + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 	 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='suppliers.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='powerSupplierID' type='hidden' value='" + powerSupplierID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 	 
 	      con.close(); 

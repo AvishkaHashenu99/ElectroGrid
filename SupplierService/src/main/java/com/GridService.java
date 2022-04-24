@@ -19,7 +19,8 @@ import org.jsoup.nodes.Document;
 public class GridService {
 	
 	Grid gridObj = new Grid(); 
-	
+		
+	  //view grid
 	  @GET 
 	  @Path("/") 
 	  @Produces(MediaType.TEXT_HTML) 
@@ -28,21 +29,30 @@ public class GridService {
 	    return gridObj.readGrid(); 
 	  }
 	  
+	  
+	  //insert grid
 	  @POST 
 	  @Path("/") 
-	  @Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
+	  @Consumes(MediaType.APPLICATION_JSON) 
 	  @Produces(MediaType.TEXT_PLAIN) 
-	  public String insertGrid(@FormParam("name") String name,     
-	        @FormParam("resourceType") String resourceType, 
-	        @FormParam("totalCapacity") String totalCapacity,      
-	        @FormParam("address") String address,
-	        @FormParam("phone") String phone,
-	  		@FormParam("powerSupplierID") String powerSupplierID) 
-	  { 
-	    String output = gridObj.insertGrid(name, resourceType, totalCapacity, address, phone, powerSupplierID); 
-	    return output; 
+	  public String insertGrid(String gridData) 
+	  {
+		  //Convert the input string to a JSON object 
+		  JsonObject gridObject = new JsonParser().parse(gridData).getAsJsonObject();
+		  
+		  //Read the values from the JSON object
+		  String name = gridObject.get("name").getAsString();
+		  String resourceType = gridObject.get("resourceType").getAsString();
+		  String totalCapacity = gridObject.get("totalCapacity").getAsString();
+		  String address = gridObject.get("address").getAsString();
+		  String phone = gridObject.get("phone").getAsString();
+		  String powerSupplierID = gridObject.get("powerSupplierID").getAsString();
+		  String output = gridObj.insertGrid(name, resourceType, totalCapacity, address, phone, powerSupplierID);
+		  return output;
 	  }
 	  
+	  
+	  //update grid
 	  @PUT 
 	  @Path("/") 
 	  @Consumes(MediaType.APPLICATION_JSON) 
@@ -66,6 +76,8 @@ public class GridService {
 	    return output; 
 	  }  
 	  
+	  
+	  //delete grid
 	  @DELETE 
 	  @Path("/") 
 	  @Consumes(MediaType.APPLICATION_XML) 
@@ -83,6 +95,8 @@ public class GridService {
 	    return output; 
 	  }
 	  
+	  
+	  //view grids by ID
 	  @GET
 	  @Path("/gridByID")
 	  @Consumes(MediaType.APPLICATION_JSON)
