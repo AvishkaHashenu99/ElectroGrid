@@ -27,6 +27,7 @@ public class PaymentService {
 		JsonObject paymentsObject = new JsonParser().parse(paymentData).getAsJsonObject();
 		String PaymentID = paymentsObject.get("PaymentID").getAsString();
 		String UserID = paymentsObject.get("UserID").getAsString();
+		String PowerSupplierID = paymentsObject.get("PowerSupplierID").getAsString();
 		String Payment_Method = paymentsObject.get("Payment_Method").getAsString();
 		String Payment_Date = paymentsObject.get("Payment_Date").getAsString();
 		String Amount = paymentsObject.get("Amount").getAsString();
@@ -35,8 +36,9 @@ public class PaymentService {
 		String NoOfUnits = paymentsObject.get("NoOfUnits").getAsString();
 		
 	 
-	 String output = paymentsObj.insertPayment(PaymentID,UserID,Payment_Method,Payment_Date,Amount,Type,Consumption_Unit,NoOfUnits); 
+	 String output = paymentsObj.insertPayment(PaymentID,UserID,PowerSupplierID,Payment_Method,Payment_Date,Amount,Type,Consumption_Unit,NoOfUnits); 
 	return output;
+	
 }
 	//read
 	@GET
@@ -59,6 +61,7 @@ public class PaymentService {
 	//Read the values from the JSON object
 	 String PaymentID = paymentsObject.get("PaymentID").getAsString(); 
 	 String UserID = paymentsObject.get("UserID").getAsString(); 
+	 String PowerSupplierID = paymentsObject.get("PowerSupplierID").getAsString(); 
 	 String Payment_Method = paymentsObject.get("Payment_Method").getAsString(); 
 	 String Payment_Date = paymentsObject.get("Payment_Date").getAsString();
 	 String Amount = paymentsObject.get("Amount").getAsString();
@@ -66,7 +69,7 @@ public class PaymentService {
 	 String Consumption_Unit = paymentsObject.get("Consumption_Unit").getAsString();
 	 String NoOfUnits = paymentsObject.get("NoOfUnits").getAsString();
 	 
-	 String output = paymentsObj.updatePayment(PaymentID,UserID,Payment_Method,Payment_Date,Amount,Type,Consumption_Unit,NoOfUnits); 
+	 String output = paymentsObj.updatePayment(PaymentID,UserID,PowerSupplierID,Payment_Method,Payment_Date,Amount,Type,Consumption_Unit,NoOfUnits); 
 	return output;
 }
 	@DELETE
