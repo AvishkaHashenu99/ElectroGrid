@@ -30,6 +30,24 @@ public class CapacityService {
 	}
 	
 	
+	//read
+	@GET
+	@Path("/id/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String readCapacityById(String itemData){
+		
+		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
+		//Read the values from the JSON object
+		String SupNo = itemObject.get("supplierID").getAsString();
+
+	
+		
+		String output = Obj.readCapacityById(SupNo); 
+		return output;
+	}
+	
+	
 	//insert
 	@POST
 	@Path("/")

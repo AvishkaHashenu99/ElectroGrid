@@ -13,10 +13,9 @@ public class Power_Consumption extends DBHandler{
 	
 	
 	final static String tableName = "power_consumption";
-	//update 10.42 21/4/22
 
-	//insert items
-	public String insertConsumption(String ActNo, String currentReading, String date, String type, String readerID, String userID) {
+	//insert consumption
+	public String insertConsumption(String currentReading, String date, String type, String readerID, String userID) {
 		String output = "";
 		try {
 			Connection con = getConnection();
@@ -24,9 +23,20 @@ public class Power_Consumption extends DBHandler{
 				return "Error while connecting to the database";
 			}
 			
-			//do calculation { current reading - previous reading} noUnit = getResult(currentReading);
+			//retrieve the account number of the user
+			String[] aa = Power_Consumption.getActNumberById(userID);
+			 
+			if(aa[0].equals("error")) {
+				return "Error while retrieve the account number of the user";
+			}
+			
+			String ActNo = aa[1]; 
+			
+			//calculation { current reading - previous reading of the same user to get consume units of the month}
+			
 			int[] noUnit = CalcUtility.calculateUsedUnits(Integer.parseInt(currentReading), ActNo, date);
 			
+			//database status validation
 			if(noUnit[0]==-1) {
 				return "Error while connecting to the database!";
 			}
@@ -82,6 +92,8 @@ public class Power_Consumption extends DBHandler{
 		}
 		return output;
 	}
+
+
 
 	//read table
 	public String readConsumption() {
@@ -225,6 +237,52 @@ public class Power_Consumption extends DBHandler{
 	}
 
 	
+	public String readConsumptionById(String key) {
+		String output = "";
+		try {
+			Connection con = getConnection();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = TableHtml.getHtml();
+			
+			String query = "select * from "+ tableName + " where Electricity_AccountNo ='" + key + "'"  ;
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String recordID = rs.getString("recordID");
+				String actno = rs.getString("Electricity_AccountNo");
+				String cread = Integer.toString(rs.getInt("CurrentReading"));
+				String nounit = Integer.toString(rs.getInt("NoOfUnits"));
+				String monthYear = rs.getString("monthYear");
+				String date = rs.getString("date");
+				String type = rs.getString("type");
+				String ReaderID = rs.getString("ReaderID");
+				String userID = rs.getString("userID");
+				
+					
+				// Add a row into the html table
+				output += "<tr><td>" + recordID + "</td>" + "<td>" + actno + "</td>";
+				output += "<td>" + cread + "</td>" + "<td>" + nounit + "</td>";
+				output += "<td>" + date + "</td>" + "<td>" + monthYear + "</td>";
+				output += "<td>" + type + "</td>" + "<td>" + ReaderID + "</td>";
+				output += "<td>" + userID + "</td>";
+
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the database." + e.getMessage();
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
+	
+	
 	public static int[] readPreviousReading(String key, String actnum) {
 		int[] output = new int[] {-1,-1};
 		
@@ -275,7 +333,36 @@ public class Power_Consumption extends DBHandler{
 		return output;
 	}
 
-	
+	private static String [] getActNumberById(String userID) {
+		String[] valueArr = new String[] {"error","Error while connecting to the database!"};
+		try {
+			Connection con = getConnection();
+			if (con == null) {
+				//return "Error while connecting to the database for reading.";
+				return valueArr;
+			}
+		
+			
+			String query = "SELECT accountNumber FROM electrogrid.user where userID ='" + userID + "'"  ;
+
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			if (rs.next()) {
+				String actno = rs.getString("accountNumber");
+				valueArr[1] = actno;
+				valueArr[0] = "Ok";
+			}
+			con.close();
+			// Complete the html table
+		} catch (Exception e) {
+			valueArr[1] = "Error while reading the database." + e.getMessage();
+			System.err.println(e.getMessage());
+			return null;
+		}
+		return valueArr;
+
+	}
 	
 
 }

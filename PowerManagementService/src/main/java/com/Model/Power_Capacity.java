@@ -178,6 +178,47 @@ public class Power_Capacity extends DBHandler{
 		}
 		return output;
 	}
+	
+	
+	
+	public String readCapacityById(String key) {
+		String output = "";
+		try {
+			Connection con = getConnection();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = TableHtml.getHtmlCapacity();
+			
+			String query = "select * from "+ tableName + " where supplierID = '"+ key +"'";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String capacityID = rs.getString("capacityID");
+				String date = rs.getString("date");
+				String Type = rs.getString("Type");
+				String nounit = Integer.toString(rs.getInt("noOfUnits"));
+				String SupNo = rs.getString("supplierID");
+	;
+				
+					
+				// Add a row into the html table
+				output += "<tr><td>" + capacityID + "</td>" + "<td>" + date + "</td>";
+				output += "<td>" + Type + "</td>" + "<td>" + nounit + "</td>";
+				output += "<td>" + SupNo + "</td>" ;
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the database." + e.getMessage();
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 
 
 }

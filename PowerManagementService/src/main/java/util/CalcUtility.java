@@ -23,8 +23,8 @@ public class CalcUtility {
 	    String month = "wrong";
 	    DateFormatSymbols dfs = new DateFormatSymbols();
 	    String[] months = dfs.getMonths();
-	    if (num >= 0 && num <= 11) {
-	        month = months[num];
+	    if (num >= 0 && num <= 12) {
+	        month = months[num-1];
 	    }
 	    return month;
 	}

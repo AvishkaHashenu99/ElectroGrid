@@ -30,6 +30,18 @@ public class ConsumptionService {
 	}
 	
 	
+	//read by id
+	@GET
+	@Path("/id/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String readConsumptionById(String itemData){
+		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
+		String ActNo = itemObject.get("AccountNo").getAsString();
+		return Obj.readConsumptionById(ActNo);
+	}
+	
+	
 	//insert
 	@POST
 	@Path("/")
@@ -48,7 +60,7 @@ public class ConsumptionService {
 		String userID = itemObject.get("userID").getAsString();
 	
 		
-		String output = Obj.insertConsumption(ActNo, currentReading, date, type, readerID, userID); 
+		String output = Obj.insertConsumption(currentReading, date, type, readerID, userID); 
 		return output;
 	}
 	
