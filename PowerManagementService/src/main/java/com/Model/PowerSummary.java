@@ -148,18 +148,18 @@ public class PowerSummary extends DBHandler{
 		int total = SumCapacity[1] - ConsumeUnits[1];
 		
 		String[] dateArray = key.split("-");
-		valueArr[1] = "<h3>Summary for "+CalcUtility.getMonthForInt(Integer.parseInt(dateArray[1])-1)+" " +dateArray[0]+ "</h3>";
+		valueArr[1] = "<h3>Summary for "+CalcUtility.getMonthForInt(Integer.parseInt(dateArray[1]))+" " +dateArray[0]+ "</h3>";
 		
-		valueArr[1] += "<ul> <li>Total number of unitpower capacity inserted to ElectroGrid by power suppliers: " +SumCapacity[1] +" kWh</li> "
-				+ "<li>Total number of unit consumed by user: "+ ConsumeUnits[1]+ " kWh</li> ";
+		valueArr[1] += "<ul> <li>Total power generation units added to ElectroGrid: " +SumCapacity[1] +" kWh</li> "
+					 + "<li>Total number of unit consumed by user : "+ ConsumeUnits[1]+ " kWh</li> ";
 		
 		if(total < 0) {
-			valueArr[1] +=  "<li>Extra units added to the system:" + (total*-1)+ "</li> "
-					+ "<li>Remaining units: 0 </li> </ul>";
+       valueArr[1] +=  "<li>Extra units added to the system :" + (total*-1)+ "</li> "
+					 + "<li>Remaining units : 0 </li> </ul>";
 			return valueArr;
 		}
 		
-		valueArr[1] +=  "<li>Remaining units:" + total+ " kWh</li> </ul>";
+	   valueArr[1] +=  "<li>Remaining units :" + total+ " kWh</li> </ul>";
 		return valueArr;
 		
 		
@@ -174,6 +174,8 @@ public class PowerSummary extends DBHandler{
 		String[] dateArray = key.split("-");
 		int[] ConsumeUnits;
 		int[] SumCapacity;
+		
+		int totconsumption =0 , totCapacity = 0;
 		
 		valueArr[1] += "<h3>Summary for "+dateArray[0]+ " </h3>" +TableHtml.getHtmlSummery();
 		
@@ -205,8 +207,10 @@ public class PowerSummary extends DBHandler{
 			valueArr[0] = "Ok";
 			
 			int total = SumCapacity[1] - ConsumeUnits[1];
+			totconsumption += SumCapacity[1];
+			totCapacity += ConsumeUnits[1];
 			
-			valueArr[1] +="<tr> <td>" + CalcUtility.getMonthForInt(i-1) + "</td>";
+			valueArr[1] +="<tr> <td>" + CalcUtility.getMonthForInt(i) + "</td>";
 			valueArr[1] += "<td>" +SumCapacity[1] +"</td> "
 					+ "<td>"+ ConsumeUnits[1] + "</td> ";
 			
@@ -224,6 +228,17 @@ public class PowerSummary extends DBHandler{
 			
 			
 		}
+		
+		valueArr[1] += "<ul> <li> Total consumption: " + totconsumption + " kWh</li>";
+		valueArr[1] += " <li> Total Capacity: " + totconsumption + " kWh</li>";
+		int r = totconsumption - totCapacity;
+		if(r>0) {
+			valueArr[1] += "<li> Total Remaining Units: " + (totconsumption - totCapacity) + " kWh</li></ul>";
+		}
+		else {
+			valueArr[1] += "<li> Total Extra Units: " + (totconsumption - totCapacity) + " kWh</li> </ul>";
+		}
+		
 		return valueArr;
 			
 		

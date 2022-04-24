@@ -43,8 +43,8 @@ public class TableHtml {
 		return  "<table border='1'>"
 				+ "<tr>"
 					+"<th>Month</th>" 
-					+ "<th>Total Capacity Units<br>(KwH)</th>" 
-					+ "<th>Total Consume Units<br>(KwH)</th>"
+					+ "<th>Total Capacity Units<br>(kWh)</th>" 
+					+ "<th>Total Consume Units<br>(kWh)</th>"
 					+ "<th>Remaining</th>"
 					+ "<th>Extra units</th>"
 					+ "</tr>";
