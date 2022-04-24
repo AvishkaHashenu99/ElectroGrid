@@ -22,6 +22,20 @@ public class BreakdownService {
 		return breakdownObj.readBreakdowns();
 	}
 
+	//Get Breakdown By ID
+
+	@GET
+	@Path("/getBreakdownbyID")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String BreakdownDetails(String breakdownIdData) {
+		//Convert the input string to a JSON object 
+		JsonObject breakdownIDObject = new JsonParser().parse(breakdownIdData).getAsJsonObject();
+		//Read the values from the JSON object
+		String breakdownID = breakdownIDObject.get("breakdownID").getAsString();
+		return breakdownObj.readBreakdownByID(breakdownID);
+	}
+
 	//Create Breakdown Complain
 
 	@POST
@@ -73,20 +87,20 @@ public class BreakdownService {
 		String output = breakdownObj.deleteBreakdown(breakdownID);
 		return output;
 	}
-	
+
 	// Update Breakdown Status
 
-		@PUT
-		@Path("/updateStatus")
-		@Consumes(MediaType.APPLICATION_JSON)
-		@Produces(MediaType.TEXT_PLAIN)
-		public String updateStatus(String breakdownStatusData) {
-			//Convert the input string to a JSON object 
-			JsonObject breakdownStatusObject = new JsonParser().parse(breakdownStatusData).getAsJsonObject();
-			//Read the values from the JSON object
-			String breakdownID = breakdownStatusObject.get("breakdownID").getAsString();
-			String status = breakdownStatusObject.get("status").getAsString();
-			String output = breakdownObj.updateStatus(breakdownID, status);
-			return output;
-		}
+	@PUT
+	@Path("/updateStatus")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateStatus(String breakdownStatusData) {
+		//Convert the input string to a JSON object 
+		JsonObject breakdownStatusObject = new JsonParser().parse(breakdownStatusData).getAsJsonObject();
+		//Read the values from the JSON object
+		String breakdownID = breakdownStatusObject.get("breakdownID").getAsString();
+		String status = breakdownStatusObject.get("status").getAsString();
+		String output = breakdownObj.updateStatus(breakdownID, status);
+		return output;
+	}
 }

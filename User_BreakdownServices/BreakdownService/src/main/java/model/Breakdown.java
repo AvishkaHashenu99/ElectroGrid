@@ -70,8 +70,7 @@ public class Breakdown {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Region</th><th>Description</th>" + "<th>Mobile Number</th>" + "<th>Status</th>" + "<th>User</th>" + "<th>Date</th>"
-					+ "<th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>Region</th><th>Description</th>" + "<th>Mobile Number</th>" + "<th>Status</th>" + "<th>User</th>" + "<th>Date</th>";
 
 			String query = "select b.*, u.username, bs.description from breakdown b INNER JOIN user u ON b.user = u.userID INNER JOIN breakdown_status bs ON b.status = bs.value ";
 			Statement stmt = con.createStatement();
@@ -92,17 +91,53 @@ public class Breakdown {
 				output += "<td>" + status + "</td>";
 				output += "<td>" + user + "</td>";
 				output += "<td>" + date + "</td>";
-				// buttons
-				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
-						+ "<td><form method='post' action='items.jsp'>"
-						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-						+ "<input name='breakdownID' type='hidden' value='" + breakdownID + "'>" + "</form></td></tr>";
 			}
 			con.close();
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the breakdowns.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
+	public String readBreakdownByID(String breakdownId) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>Breakdown ID</th><th>Region</th><th>Description</th>" + "<th>Mobile Number</th>" + "<th>Status</th>" + "<th>User</th>" + "<th>Date</th>";
+
+			String query = "select b.*, u.username, bs.description from breakdown b INNER JOIN user u ON b.user = u.userID INNER JOIN breakdown_status bs ON b.status = bs.value where b.breakdownID='"+breakdownId+"'";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String breakdownID = Integer.toString(rs.getInt("b.breakdownID"));
+				String region = rs.getString("b.region");
+				String description = rs.getString("b.description");
+				String phone = rs.getString("b.phone");
+				String user = rs.getString("u.username");
+				String date = rs.getString("b.date");
+				String status = rs.getString("bs.description");
+				// Add into the html table
+				output += "<tr><td>" + breakdownID + "</td>";
+				output += "<td>" + region + "</td>";
+				output += "<td>" + description + "</td>";
+				output += "<td>" + phone + "</td>";
+				output += "<td>" + status + "</td>";
+				output += "<td>" + user + "</td>";
+				output += "<td>" + date + "</td>";
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the breakdown.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -157,7 +192,7 @@ public class Breakdown {
 		}
 		return output;
 	}
-	
+
 	public String updateStatus(String breakdownID, String status) {
 		String output = "";
 		try {

@@ -79,8 +79,7 @@ public class Grid {
 	      output = "<table border='1'><tr><th>Grid ID</th><th>Grid name</th><th>Resource Type</th>" + 
 	        "<th>Total capacity(MW)</th>" +  
 	        "<th>Address</th>" + 
-	        "<th>Phone</th>" +
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Phone</th></tr>";   
 	     
 	      String query = "select * from power_grid"; 
 	      Statement stmt = con.createStatement(); 
@@ -104,12 +103,6 @@ public class Grid {
 	        output += "<td>" + address + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 	 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='items.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='gridID' type='hidden' value='" + gridID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 	 
 	      con.close(); 
@@ -201,6 +194,62 @@ public class Grid {
 	      System.err.println(e.getMessage()); 
 	    } 
 	 
+	    return output; 
+	  }
+	  
+	//view grids by ID
+	  public String readGridByID(String gridId) 
+	  { 
+	    String output = ""; 
+
+	    try 
+	    { 
+	      Connection con = connect(); 
+
+	      if (con == null) 
+	      {return "Error while connecting to the database for reading."; } 
+
+	      // Prepare the html table to be displayed 
+	      output = "<table border='1'><tr><th>Grid ID</th><th>Grid name</th><th>Resource Type</th>" + 
+	        "<th>Total capacity(MW)</th>" +  
+	        "<th>Address</th>" + 
+	        "<th>Phone</th></tr>";   
+	     
+	      String query = "select * from power_grid where gridID='"+gridId+"'";
+	      Statement stmt = con.createStatement(); 
+	      ResultSet rs = stmt.executeQuery(query); 
+
+	      // iterate through the rows in the result set 
+	      while (rs.next()) 
+	      { 
+	        String gridID = Integer.toString(rs.getInt("gridID")); 
+	        String name = rs.getString("name"); 
+	        String resourceType = rs.getString("resourceType"); 
+	        String totalCapacity = Integer.toString(rs.getInt("totalCapacity")); 
+	        String address = rs.getString("address"); 
+	        String phone = rs.getString("phone"); 
+
+	        // Add into the html table 
+	        output += "<tr><td>" + gridID + "</td>"; 
+	        output += "<td>" + name + "</td>";
+	        output += "<td>" + resourceType + "</td>"; 
+	        output += "<td>" + totalCapacity + "</td>"; 
+	        output += "<td>" + address + "</td>"; 
+	        output += "<td>" + phone + "</td>"; 
+
+	      } 
+
+	      con.close(); 
+
+	      // Complete the html table 
+	      output += "</table>"; 
+	    } 
+	    catch (Exception e) 
+	    { 
+	      output = "Error while reading the resource."; 
+	      System.err.println(e.getMessage()); 
+	    } 
+
 	    return output; 
 	  }
 

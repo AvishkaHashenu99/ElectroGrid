@@ -76,8 +76,7 @@ public class Supplier {
 	      // Prepare the html table to be displayed 
 	      output = "<table border='1'><tr><th>Supplier ID</th><th>Supplier Name</th><th>Supplier Address</th>" + 
 	        "<th>Supplier NIC</th>" +  
-	        "<th>Supplier Phone</th>" + 
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Supplier Phone</th></tr>";   
 	     
 	      String query = "select * from power_supplier"; 
 	      Statement stmt = con.createStatement(); 
@@ -99,12 +98,6 @@ public class Supplier {
 	        output += "<td>" + NIC + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 	 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='suppliers.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='powerSupplierID' type='hidden' value='" + powerSupplierID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 	 
 	      con.close(); 
@@ -190,6 +183,59 @@ public class Supplier {
 	    catch (Exception e) 
 	    { 
 	      output = "Error while deleting the supplier."; 
+	      System.err.println(e.getMessage()); 
+	    } 
+	 
+	    return output; 
+	  }
+
+	  //view supplier by id
+	  public String readSupplierByID(String powerSupplierId)
+	  { 
+	    String output = ""; 
+	 
+	    try 
+	    { 
+	      Connection con = connect(); 
+	 
+	      if (con == null) 
+	      {return "Error while connecting to the database for reading."; } 
+	 
+	      // Prepare the html table to be displayed 
+	      output = "<table border='1'><tr><th>Supplier ID</th><th>Supplier Name</th><th>Supplier Address</th>" + 
+	        "<th>Supplier NIC</th>" +  
+	        "<th>Supplier Phone</th></tr>";   
+	     
+	      String query = "select * from power_supplier where powerSupplierID='"+powerSupplierId+"'"; 
+	      Statement stmt = con.createStatement(); 
+	      ResultSet rs = stmt.executeQuery(query); 
+	 
+	      // iterate through the rows in the result set 
+	      while (rs.next()) 
+	      { 
+	        String powerSupplierID = Integer.toString(rs.getInt("powerSupplierID")); 
+	        String name = rs.getString("name"); 
+	        String address = rs.getString("address"); 
+	        String NIC = rs.getString("NIC"); 
+	        String phone = rs.getString("phone"); 
+	 
+	        // Add into the html table 
+	        output += "<tr><td>" + powerSupplierID + "</td>"; 
+	        output += "<td>" + name + "</td>";
+	        output += "<td>" + address + "</td>"; 
+	        output += "<td>" + NIC + "</td>"; 
+	        output += "<td>" + phone + "</td>"; 
+	 
+	      } 
+	 
+	      con.close(); 
+	 
+	      // Complete the html table 
+	      output += "</table>"; 
+	    } 
+	    catch (Exception e) 
+	    { 
+	      output = "Error while reading the suppliers."; 
 	      System.err.println(e.getMessage()); 
 	    } 
 	 

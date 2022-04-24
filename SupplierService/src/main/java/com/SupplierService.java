@@ -19,7 +19,8 @@ import org.jsoup.nodes.Document;
 public class SupplierService {
 	
 		Supplier supplierObj = new Supplier(); 
-	
+	  
+	  //view supplier
 	  @GET 
 	  @Path("/") 
 	  @Produces(MediaType.TEXT_HTML) 
@@ -28,19 +29,28 @@ public class SupplierService {
 	    return supplierObj.readSuppliers(); 
 	  }
 	  
+	  
+	  //insert supplier
 	  @POST 
 	  @Path("/") 
-	  @Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
+	  @Consumes(MediaType.APPLICATION_JSON) 
 	  @Produces(MediaType.TEXT_PLAIN) 
-	  public String insertSupplier(@FormParam("name") String name,     
-	        @FormParam("address") String address, 
-	        @FormParam("NIC") String NIC,      
-	        @FormParam("phone") String phone) 
-	  { 
-	    String output = supplierObj.insertSupplier(name, address, NIC, phone); 
-	    return output; 
+	  public String insertSupplier(String supplierData) 
+	  {
+		  //Convert the input string to a JSON object 
+		  JsonObject supplierObject = new JsonParser().parse(supplierData).getAsJsonObject();
+		  
+		  //Read the values from the JSON object
+		  String name = supplierObject.get("name").getAsString();
+		  String address = supplierObject.get("address").getAsString();
+		  String NIC = supplierObject.get("NIC").getAsString();
+		  String phone = supplierObject.get("phone").getAsString();
+		  String output = supplierObj.insertSupplier(name, address, NIC, phone);
+		  return output;
 	  }
 	  
+	  
+	  //update supplier
 	  @PUT 
 	  @Path("/") 
 	  @Consumes(MediaType.APPLICATION_JSON) 
@@ -62,6 +72,8 @@ public class SupplierService {
 	    return output; 
 	  } 
 	  
+	  
+	  //delete supplier
 	  @DELETE 
 	  @Path("/") 
 	  @Consumes(MediaType.APPLICATION_XML) 
@@ -77,6 +89,21 @@ public class SupplierService {
 	    String output = supplierObj.deleteSupplier(powerSupplierID); 
 	   
 	    return output; 
+	  }
+	  
+	  
+	  //view suppliers by ID
+	  @GET
+	  @Path("/supplierByID")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String readSupplierByID(String powerSupplierIDData)
+	  {
+		//Convert the input string to a JSON object 
+		JsonObject supplierObject = new JsonParser().parse(powerSupplierIDData).getAsJsonObject();
+		//Read the values from the JSON object
+		String powerSupplierId = supplierObject.get("powerSupplierID").getAsString();
+		return supplierObj.readSupplierByID(powerSupplierId);				  
 	  }
 
 }

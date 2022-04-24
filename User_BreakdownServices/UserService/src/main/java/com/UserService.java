@@ -23,6 +23,20 @@ public class UserService {
 		return userObj.readUsers();
 	}
 
+	//Get User By ID
+
+	@GET
+	@Path("/getUserbyID")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String UserProfileDetails(String userIdData) {
+		//Convert the input string to a JSON object 
+		JsonObject userObject = new JsonParser().parse(userIdData).getAsJsonObject();
+		//Read the values from the JSON object
+		String userId = userObject.get("userID").getAsString();
+		return userObj.readUserByID(userId);
+	}
+
 	//Create user account
 
 	@POST
@@ -40,7 +54,8 @@ public class UserService {
 		String NIC = userObject.get("NIC").getAsString();
 		String phone = userObject.get("phone").getAsString();
 		String reset_code = userObject.get("reset_code").getAsString();
-		String output = userObj.insertUser(username, password, accountNumber, address, NIC, phone, reset_code);
+		String userRole = userObject.get("userRole").getAsString();
+		String output = userObj.insertUser(username, password, accountNumber, address, NIC, phone, reset_code, userRole);
 		return output;
 	}
 
@@ -61,7 +76,8 @@ public class UserService {
 		String address = userObject.get("address").getAsString();
 		String NIC = userObject.get("NIC").getAsString();
 		String phone = userObject.get("phone").getAsString();
-		String output = userObj.updateUser(userID, username, password, accountNumber, address, NIC, phone);
+		String userRole = userObject.get("userRole").getAsString();
+		String output = userObj.updateUser(userID, username, password, accountNumber, address, NIC, phone, userRole);
 		return output;
 	}
 
