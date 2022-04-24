@@ -13,6 +13,9 @@ CREATE TABLE `electrogrid`.`user` (
 ALTER TABLE user
 ADD COLUMN reset_code VARCHAR(45) NOT NULL;
 
+ALTER TABLE user
+ADD COLUMN userRole VARCHAR(45) NOT NULL;
+
 
 --Breakdown Table
 

@@ -40,7 +40,8 @@ public class UserService {
 		String NIC = userObject.get("NIC").getAsString();
 		String phone = userObject.get("phone").getAsString();
 		String reset_code = userObject.get("reset_code").getAsString();
-		String output = userObj.insertUser(username, password, accountNumber, address, NIC, phone, reset_code);
+		String userRole = userObject.get("userRole").getAsString();
+		String output = userObj.insertUser(username, password, accountNumber, address, NIC, phone, reset_code, userRole);
 		return output;
 	}
 
@@ -61,7 +62,8 @@ public class UserService {
 		String address = userObject.get("address").getAsString();
 		String NIC = userObject.get("NIC").getAsString();
 		String phone = userObject.get("phone").getAsString();
-		String output = userObj.updateUser(userID, username, password, accountNumber, address, NIC, phone);
+		String userRole = userObject.get("userRole").getAsString();
+		String output = userObj.updateUser(userID, username, password, accountNumber, address, NIC, phone, userRole);
 		return output;
 	}
 
