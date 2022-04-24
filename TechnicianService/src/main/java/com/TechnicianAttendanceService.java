@@ -44,6 +44,21 @@ public class TechnicianAttendanceService {
 		return attObj.readTechnicianAttendance();
 	}
 	
+	
+	//Get User By ID
+		@GET
+		@Path("/getTechnicianAttendancebyID")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.TEXT_PLAIN)
+		public String TechnicianAttendanceDetails(String TechnicianIdData) {
+			//Convert the input string to a JSON object 
+			JsonObject techniciabObject = new JsonParser().parse(TechnicianIdData).getAsJsonObject();
+			//Read the values from the JSON object
+			String TechnicianID = techniciabObject.get("TechnicianID").getAsString();
+			return attObj.readTechnicianAttendanceByID(TechnicianID);
+		}
+		
+		
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)

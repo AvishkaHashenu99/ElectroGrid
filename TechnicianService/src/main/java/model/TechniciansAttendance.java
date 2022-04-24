@@ -75,8 +75,7 @@ public class TechniciansAttendance {
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Technician Attendance ID</th><th>Technician ID</th>" +
 					"<th>Date</th>" +
-					"<th>Attendance Status</th>" +
-					"<th>Update</th><th>Remove</th></tr>";
+					"<th>Attendance Status</th>";
 			String query = "select * from technicians_attendance_details";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -93,8 +92,7 @@ public class TechniciansAttendance {
 				output += "<td>" + TechnicianID + "</td>";
 				output += "<td>" + Date + "</td>";
 				output += "<td>" + AttendanceStatus + "</td>";
-				// buttons
-				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" + "<td><form method='post' action='items.jsp'>" + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" + "<input name='TechnicianID' type='hidden' value='" + TechnicianID + "'>" + "</form></td></tr>";
+				
 			}
 			con.close();
 			// Complete the html table
@@ -102,6 +100,45 @@ public class TechniciansAttendance {
 		}
 		catch (Exception e)
 		{
+			output = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
+	
+	public String readTechnicianAttendanceByID(String TechnicianID) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>Technician Attendance ID</th><th>Technician ID</th>" +
+					"<th>Date</th>" +
+					"<th>Attendance Status</th>";
+			String query = "select * from technicians_attendance_details where TechnicianID='"+TechnicianID+"'";
+
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String Technician_AttendanceID = Integer.toString(rs.getInt("Technician_AttendanceID"));
+				TechnicianID = Integer.toString(rs.getInt("TechnicianID"));
+				String Date = rs.getString("Date");
+				String AttendanceStatus = Integer.toString(rs.getInt("AttendanceStatus"));
+				
+				// Add into the html table
+				output += "<tr><td>" + Technician_AttendanceID + "</td>";
+				output += "<td>" + TechnicianID + "</td>";
+				output += "<td>" + Date + "</td>";
+				output += "<td>" + AttendanceStatus + "</td>";
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
 			output = "Error while reading the items.";
 			System.err.println(e.getMessage());
 		}
