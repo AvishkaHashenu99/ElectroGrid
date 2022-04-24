@@ -83,6 +83,17 @@ public class GridService {
 	    return output; 
 	  }
 	  
-	  
+	  @GET
+	  @Path("/gridByID")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String readGridByID(String gridIDData)
+	  {
+	  	//Convert the input string to a JSON object 
+	  	JsonObject gridObject = new JsonParser().parse(gridIDData).getAsJsonObject();
+	  	//Read the values from the JSON object
+	  	String gridId = gridObject.get("gridID").getAsString();
+	  	return gridObj.readGridByID(gridId);				  
+	  }
 
 }
