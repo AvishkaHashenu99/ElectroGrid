@@ -79,8 +79,7 @@ public class Grid {
 	      output = "<table border='1'><tr><th>Grid ID</th><th>Grid name</th><th>Resource Type</th>" + 
 	        "<th>Total capacity(MW)</th>" +  
 	        "<th>Address</th>" + 
-	        "<th>Phone</th>" +
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Phone</th></tr>";   
 	     
 	      String query = "select * from power_grid"; 
 	      Statement stmt = con.createStatement(); 
@@ -104,12 +103,6 @@ public class Grid {
 	        output += "<td>" + address + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 	 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='items.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='gridID' type='hidden' value='" + gridID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 	 
 	      con.close(); 
@@ -220,8 +213,7 @@ public class Grid {
 	      output = "<table border='1'><tr><th>Grid ID</th><th>Grid name</th><th>Resource Type</th>" + 
 	        "<th>Total capacity(MW)</th>" +  
 	        "<th>Address</th>" + 
-	        "<th>Phone</th>" +
-	        "<th>Update</th><th>Remove</th></tr>";   
+	        "<th>Phone</th></tr>";   
 	     
 	      String query = "select * from power_grid where gridID='"+gridId+"'";
 	      Statement stmt = con.createStatement(); 
@@ -245,12 +237,6 @@ public class Grid {
 	        output += "<td>" + address + "</td>"; 
 	        output += "<td>" + phone + "</td>"; 
 
-	        // buttons 
-	        output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" 
-	          + "<td><form method='post' action='items.jsp'>" 
-	          + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" 
-	          + "<input name='gridID' type='hidden' value='" + gridID  
-	          + "'>" + "</form></td></tr>"; 
 	      } 
 
 	      con.close(); 
