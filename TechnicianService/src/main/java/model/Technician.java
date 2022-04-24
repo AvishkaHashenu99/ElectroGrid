@@ -74,8 +74,7 @@ public class Technician {
 					"<th>TechnicianPhone</th>" +
 					"<th>Type</th>" +
 					"<th>Contract Technician Salary</th>" +
-					"<th>Hourly Technician HourlyWages</th>" +
-					"<th>Update</th><th>Remove</th></tr>";
+					"<th>Hourly Technician HourlyWages</th>";
 			String query = "select * from power_technician";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -99,8 +98,7 @@ public class Technician {
 				output += "<td>" + Type + "</td>";
 				output += "<td>" + ContractTech_Salary + "</td>";
 				output += "<td>" + HourlyTech_HourlyWages + "</td>";
-				// buttons
-				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" + "<td><form method='post' action='items.jsp'>" + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>" + "<input name='itemID' type='hidden' value='" + TechnicianID + "'>" + "</form></td></tr>";
+				
 			}
 			con.close();
 			// Complete the html table
@@ -113,6 +111,59 @@ public class Technician {
 		}
 		return output;
 	}
+	
+	
+	
+	public String readTechnicianByID(String TechnicianID) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>Technician ID</th><th>Technician Name</th>" +
+					"<th>Technician Address</th>" +
+					"<th>Technician Email</th>" +
+					"<th>TechnicianPhone</th>" +
+					"<th>Type</th>" +
+					"<th>Contract Technician Salary</th>" +
+					"<th>Hourly Technician HourlyWages</th>";
+			String query = "select * from power_technician where TechnicianID='"+TechnicianID+"'";
+
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				TechnicianID = Integer.toString(rs.getInt("TechnicianID"));
+				String TechnicianName = rs.getString("TechnicianName");
+				String TechnicianAddress = rs.getString("TechnicianAddress");
+				String TechnicianEmail = rs.getString("TechnicianEmail");
+				String TechnicianPhone = rs.getString("TechnicianPhone");
+				String Type = rs.getString("Type");
+				String ContractTech_Salary = Double.toString(rs.getDouble("ContractTech_Salary"));
+				String HourlyTech_HourlyWages = Double.toString(rs.getDouble("HourlyTech_HourlyWages"));
+				
+				// Add into the html table
+				output += "<tr><td>" + TechnicianID + "</td>";
+				output += "<td>" + TechnicianName + "</td>";
+				output += "<td>" + TechnicianAddress + "</td>";
+				output += "<td>" + TechnicianEmail + "</td>";
+				output += "<td>" + TechnicianPhone + "</td>";
+				output += "<td>" + Type + "</td>";
+				output += "<td>" + ContractTech_Salary + "</td>";
+				output += "<td>" + HourlyTech_HourlyWages + "</td>";
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
 	
 	
 	public String updateTechnician(String TechnicianID, String TechnicianName, String TechnicianAddress, String TechnicianEmail, String TechnicianPhone, String Type, String ContractTech_Salary, String HourlyTech_HourlyWages)
