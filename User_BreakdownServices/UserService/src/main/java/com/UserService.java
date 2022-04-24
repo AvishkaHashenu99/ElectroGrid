@@ -23,6 +23,20 @@ public class UserService {
 		return userObj.readUsers();
 	}
 
+	//Get User By ID
+
+	@GET
+	@Path("/getUserbyID")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String UserProfileDetails(String userIdData) {
+		//Convert the input string to a JSON object 
+		JsonObject userObject = new JsonParser().parse(userIdData).getAsJsonObject();
+		//Read the values from the JSON object
+		String userId = userObject.get("userID").getAsString();
+		return userObj.readUserByID(userId);
+	}
+
 	//Create user account
 
 	@POST

@@ -91,6 +91,46 @@ public class User {
 		return output;
 	}
 
+	public String readUserByID(String userId) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>User ID</th><th>Username</th><th>Account Number</th>" + "<th>Address</th>" + "<th>NIC</th>" + "<th>Phone</th>";
+
+			String query = "select * from user where userID='"+userId+"'";
+
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String userID = Integer.toString(rs.getInt("userID"));
+				String username = rs.getString("username");
+				String address = rs.getString("address");
+				String accountNumber = Integer.toString(rs.getInt("accountNumber"));
+				String NIC = rs.getString("NIC");
+				String phone = rs.getString("phone");
+				// Add into the html table
+				output += "<tr><td>" + userID + "</td>";
+				output += "<td>" + username + "</td>";
+				output += "<td>" + accountNumber + "</td>";
+				output += "<td>" + address + "</td>";
+				output += "<td>" + NIC + "</td>";
+				output += "<td>" + phone + "</td>";
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 	public String updateUser(String userID, String username, String password, String accountNumber, String address, String NIC, String phone, String userRole) {
 		String output = "";
 		try {
