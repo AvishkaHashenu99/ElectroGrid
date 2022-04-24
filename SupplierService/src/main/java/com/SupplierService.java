@@ -78,5 +78,18 @@ public class SupplierService {
 	   
 	    return output; 
 	  }
+	  
+	  @GET
+	  @Path("/supplierByID")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String readSupplierByID(String powerSupplierIDData)
+	  {
+		//Convert the input string to a JSON object 
+		JsonObject supplierObject = new JsonParser().parse(powerSupplierIDData).getAsJsonObject();
+		//Read the values from the JSON object
+		String powerSupplierId = supplierObject.get("powerSupplierID").getAsString();
+		return supplierObj.readSupplierByID(powerSupplierId);				  
+	  }
 
 }
