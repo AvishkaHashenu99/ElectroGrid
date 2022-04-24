@@ -16,6 +16,9 @@ ADD COLUMN reset_code VARCHAR(45) NOT NULL;
 ALTER TABLE user
 ADD COLUMN userRole VARCHAR(45) NOT NULL;
 
+ALTER TABLE user 
+ADD CONSTRAINT role_constraint CHECK (userRole = 'Admin' OR userRole = 'User' OR userRole = 'Supplier');
+
 
 --Breakdown Table
 
