@@ -18,15 +18,32 @@ import org.jsoup.nodes.Document;
 
 public class GridService {
 	
-	Grid gridObj = new Grid(); 
+	  Grid gridObj = new Grid(); 
 		
-	  //view grid
+	  //view all grids
 	  @GET 
 	  @Path("/") 
 	  @Produces(MediaType.TEXT_HTML) 
 	  public String readGrid() 
 	  { 
 	    return gridObj.readGrid(); 
+	  }
+	  
+	  
+	  //view grids by ID
+	  @GET
+	  @Path("/gridByID")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String readGridByID(String gridIDData)
+	  {
+	  	//Convert the input string to a JSON object 
+	  	JsonObject gridObject = new JsonParser().parse(gridIDData).getAsJsonObject();
+	  	
+	  	//Read the values from the JSON object
+	  	String gridId = gridObject.get("gridID").getAsString();
+	  	
+	  	return gridObj.readGridByID(gridId);				  
 	  }
 	  
 	  
@@ -43,11 +60,14 @@ public class GridService {
 		  //Read the values from the JSON object
 		  String name = gridObject.get("name").getAsString();
 		  String resourceType = gridObject.get("resourceType").getAsString();
+		  String resourceCategory = gridObject.get("resourceCategory").getAsString();
 		  String totalCapacity = gridObject.get("totalCapacity").getAsString();
 		  String address = gridObject.get("address").getAsString();
 		  String phone = gridObject.get("phone").getAsString();
 		  String powerSupplierID = gridObject.get("powerSupplierID").getAsString();
-		  String output = gridObj.insertGrid(name, resourceType, totalCapacity, address, phone, powerSupplierID);
+		  
+		  String output = gridObj.insertGrid(name, resourceType, resourceCategory, totalCapacity, address, phone, powerSupplierID);
+		  
 		  return output;
 	  }
 	  
@@ -66,12 +86,13 @@ public class GridService {
 	    String gridID = gridObject.get("gridID").getAsString(); 
 	    String name = gridObject.get("name").getAsString(); 
 	    String resourceType = gridObject.get("resourceType").getAsString(); 
+	    String resourceCategory = gridObject.get("resourceCategory").getAsString();
 	    String totalCapacity = gridObject.get("totalCapacity").getAsString(); 
 	    String address = gridObject.get("address").getAsString();
 	    String phone = gridObject.get("phone").getAsString(); 
 	    String powerSupplierID = gridObject.get("powerSupplierID").getAsString();
 	   
-	    	String output = gridObj.updateGrid(gridID, name, resourceType, totalCapacity, address, phone, powerSupplierID); 
+	    String output = gridObj.updateGrid(gridID, name, resourceType, resourceCategory, totalCapacity, address, phone, powerSupplierID); 
 	   
 	    return output; 
 	  }  
@@ -80,34 +101,19 @@ public class GridService {
 	  //delete grid
 	  @DELETE 
 	  @Path("/") 
-	  @Consumes(MediaType.APPLICATION_XML) 
+	  @Consumes(MediaType.APPLICATION_JSON) 
 	  @Produces(MediaType.TEXT_PLAIN) 
-	  public String deleteGrid(String gridData) 
-	  { 
-	    //Convert the input string to an XML document 
-	    Document doc = Jsoup.parse(gridData, "", Parser.xmlParser()); 
-	       
-	    //Read the value from the element <itemID> 
-	    String gridID = doc.select("gridID").text(); 
-	   
-	    String output = gridObj.deleteGrid(gridID); 
-	   
-	    return output; 
-	  }
-	  
-	  
-	  //view grids by ID
-	  @GET
-	  @Path("/gridByID")
-	  @Consumes(MediaType.APPLICATION_JSON)
-	  @Produces(MediaType.TEXT_PLAIN)
-	  public String readGridByID(String gridIDData)
+	  public String deleteGrid(String gridData)
 	  {
-	  	//Convert the input string to a JSON object 
-	  	JsonObject gridObject = new JsonParser().parse(gridIDData).getAsJsonObject();
-	  	//Read the values from the JSON object
-	  	String gridId = gridObject.get("gridID").getAsString();
-	  	return gridObj.readGridByID(gridId);				  
+			//Convert the input string to a JSON object 
+			JsonObject gridObject = new JsonParser().parse(gridData).getAsJsonObject();
+			
+			//Read the values from the JSON object
+			String gridID = gridObject.get("gridID").getAsString();
+			
+			String output = gridObj.deleteGrid(gridID);
+			
+			return output;
 	  }
 
 }

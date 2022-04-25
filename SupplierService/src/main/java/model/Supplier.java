@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Supplier {
 	
-	//A common method to connect to the DB 
+	  //A common method to connect to the DB 
 	  private Connection connect() 
 	  { 
 	    Connection con = null; 
@@ -50,7 +50,7 @@ public class Supplier {
 	      preparedStmt.execute(); 
 	      con.close(); 
 	 
-	      output = "Inserted successfully"; 
+	      output = "Supplier inserted successfully"; 
 	    } 
 	    catch (Exception e) 
 	    { 
@@ -61,7 +61,8 @@ public class Supplier {
 	    return output; 
 	  } 
 	  
-	  //view suppliers
+	  
+	  //view all suppliers
 	  public String readSuppliers() 
 	  { 
 	    String output = ""; 
@@ -113,82 +114,8 @@ public class Supplier {
 	 
 	    return output; 
 	  } 
-	 
-	  //update suppliers
-	  public String updateSupplier(String ID, String name, String address, String NIC, String phone)
-	   
-	  { 
-	    String output = ""; 
-	 
-	    try 
-	    { 
-	      Connection con = connect(); 
-	 
-	      if (con == null) 
-	      {return "Error while connecting to the database for updating."; } 
-	 
-	      // create a prepared statement 
-	      String query = "UPDATE power_supplier SET name=?,address=?,NIC=?,phone=? WHERE powerSupplierID=?"; 
-	 
-	      PreparedStatement preparedStmt = con.prepareStatement(query); 
-	 
-	      // binding values 
-	      preparedStmt.setString(1, name); 
-	      preparedStmt.setString(2, address); 
-	      preparedStmt.setString(3, NIC); 
-	      preparedStmt.setString(4, phone); 
-	      preparedStmt.setInt(5, Integer.parseInt(ID)); 
-	 
-	      // execute the statement 
-	      preparedStmt.execute(); 
-	      con.close(); 
-	 
-	      output = "Updated successfully"; 
-	    } 
-	    catch (Exception e) 
-	    { 
-	      output = "Error while updating the supplier."; 
-	      System.err.println(e.getMessage()); 
-	    } 
-	 
-	    return output; 
-	  } 
-	 
-	  //delete suppliers
-	  public String deleteSupplier(String powerSupplierID) 
-	  { 
-	    String output = ""; 
-	 
-	    try 
-	    { 
-	      Connection con = connect(); 
-	 
-	      if (con == null) 
-	      {return "Error while connecting to the database for deleting."; } 
-	 
-	      // create a prepared statement 
-	      String query = "delete from power_supplier where powerSupplierID=?"; 
-	 
-	      PreparedStatement preparedStmt = con.prepareStatement(query); 
-	 
-	      // binding values 
-	      preparedStmt.setInt(1, Integer.parseInt(powerSupplierID)); 
-	 
-	      // execute the statement 
-	      preparedStmt.execute(); 
-	      con.close(); 
-	 
-	      output = "Deleted successfully"; 
-	    } 
-	    catch (Exception e) 
-	    { 
-	      output = "Error while deleting the supplier."; 
-	      System.err.println(e.getMessage()); 
-	    } 
-	 
-	    return output; 
-	  }
-
+	  
+	  
 	  //view supplier by id
 	  public String readSupplierByID(String powerSupplierId)
 	  { 
@@ -236,6 +163,82 @@ public class Supplier {
 	    catch (Exception e) 
 	    { 
 	      output = "Error while reading the suppliers."; 
+	      System.err.println(e.getMessage()); 
+	    } 
+	 
+	    return output; 
+	  }
+	  
+	 
+	  //update suppliers
+	  public String updateSupplier(String ID, String name, String address, String NIC, String phone)
+	   
+	  { 
+	    String output = ""; 
+	 
+	    try 
+	    { 
+	      Connection con = connect(); 
+	 
+	      if (con == null) 
+	      {return "Error while connecting to the database for updating."; } 
+	 
+	      // create a prepared statement 
+	      String query = "UPDATE power_supplier SET name=?,address=?,NIC=?,phone=? WHERE powerSupplierID=?"; 
+	 
+	      PreparedStatement preparedStmt = con.prepareStatement(query); 
+	 
+	      // binding values 
+	      preparedStmt.setString(1, name); 
+	      preparedStmt.setString(2, address); 
+	      preparedStmt.setString(3, NIC); 
+	      preparedStmt.setString(4, phone); 
+	      preparedStmt.setInt(5, Integer.parseInt(ID)); 
+	 
+	      // execute the statement 
+	      preparedStmt.execute(); 
+	      con.close(); 
+	 
+	      output = "Supplier updated successfully"; 
+	    } 
+	    catch (Exception e) 
+	    { 
+	      output = "Error while updating the supplier."; 
+	      System.err.println(e.getMessage()); 
+	    } 
+	 
+	    return output; 
+	  } 
+	 
+	  //delete suppliers
+	  public String deleteSupplier(String powerSupplierID) 
+	  { 
+	    String output = ""; 
+	 
+	    try 
+	    { 
+	      Connection con = connect(); 
+	 
+	      if (con == null) 
+	      {return "Error while connecting to the database for deleting."; } 
+	 
+	      // create a prepared statement 
+	      String query = "delete from power_supplier where powerSupplierID=?"; 
+	 
+	      PreparedStatement preparedStmt = con.prepareStatement(query); 
+	 
+	      // binding values 
+	      preparedStmt.setInt(1, Integer.parseInt(powerSupplierID)); 
+	 
+	      // execute the statement 
+	      preparedStmt.execute(); 
+	      con.close(); 
+	 
+	      output = "Supplier deleted successfully"; 
+	    } 
+	    catch (Exception e) 
+	    { 
+	      output = "Error while deleting the supplier."; 
 	      System.err.println(e.getMessage()); 
 	    } 
 	 
