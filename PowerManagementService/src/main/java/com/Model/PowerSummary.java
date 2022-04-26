@@ -154,8 +154,8 @@ public class PowerSummary extends DBHandler{
 					 + "<li>Total number of unit consumed by user : "+ ConsumeUnits[1]+ " kWh</li> ";
 		
 		if(total < 0) {
-       valueArr[1] +=  "<li>Extra units added to the system :" + (total*-1)+ "</li> "
-					 + "<li>Remaining units : 0 </li> </ul>";
+       valueArr[1] +=  "<li>Extra units added to the system : " + (total*-1)+ "kWh</li> "
+					 + "<li>Remaining units : 0 kWh</li> </ul>";
 			return valueArr;
 		}
 		
@@ -207,8 +207,8 @@ public class PowerSummary extends DBHandler{
 			valueArr[0] = "Ok";
 			
 			int total = SumCapacity[1] - ConsumeUnits[1];
-			totconsumption += SumCapacity[1];
-			totCapacity += ConsumeUnits[1];
+			totconsumption += ConsumeUnits[1];
+			totCapacity += SumCapacity[1];
 			
 			valueArr[1] +="<tr> <td>" + CalcUtility.getMonthForInt(i) + "</td>";
 			valueArr[1] += "<td>" +SumCapacity[1] +"</td> "
@@ -230,13 +230,13 @@ public class PowerSummary extends DBHandler{
 		}
 		
 		valueArr[1] += "<ul> <li> Total consumption: " + totconsumption + " kWh</li>";
-		valueArr[1] += " <li> Total Capacity: " + totconsumption + " kWh</li>";
-		int r = totconsumption - totCapacity;
+		valueArr[1] += " <li> Total Capacity: " + totCapacity + " kWh</li>";
+		int r = totCapacity - totconsumption;
 		if(r>0) {
-			valueArr[1] += "<li> Total Remaining Units: " + (totconsumption - totCapacity) + " kWh</li></ul>";
+			valueArr[1] += "<li> Total Remaining Units: " + r + " kWh</li></ul>";
 		}
 		else {
-			valueArr[1] += "<li> Total Extra Units: " + (totconsumption - totCapacity) + " kWh</li> </ul>";
+			valueArr[1] += "<li> Total Extra Units: " + (r*-1) + " kWh</li> </ul>";
 		}
 		
 		return valueArr;

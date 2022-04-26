@@ -142,7 +142,7 @@ public class Power_Consumption extends DBHandler{
 
 	
 	//Update table
-	public String updateConsumption(String record, String ActNo, String currentReading, String date, String type, String readerID, String userID){
+	public String updateConsumption(String record, String currentReading, String date, String type, String readerID, String userID){
 		String output = "";
 		try
 		{
@@ -151,6 +151,15 @@ public class Power_Consumption extends DBHandler{
 			{return "Error while connecting to the database for updating.";
 			}
 			
+			
+			//retrieve the account number of the user
+			String[] aa = Power_Consumption.getActNumberById(userID);
+			 
+			if(aa[0].equals("error")) {
+				return "Error while retrieve the account number of the user";
+			}
+			
+			String ActNo = aa[1]; 
 			
 			
 			//do calculation { current reading - previous reading} noUnit = getResult(currentReading);
