@@ -52,7 +52,7 @@ public class ConsumptionService {
 
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 		//Read the values from the JSON object
-		String ActNo = itemObject.get("AccountNo").getAsString();
+		//String ActNo = itemObject.get("AccountNo").getAsString();
 		String currentReading = itemObject.get("currentReading").getAsString();
 		String date = itemObject.get("date").getAsString();
 		String type = itemObject.get("type").getAsString();
@@ -76,7 +76,7 @@ public class ConsumptionService {
 		JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 		//Read the values from the JSON object  
 		String recID = itemObject.get("recordID").getAsString();
-		String ActNo = itemObject.get("AccountNo").getAsString();
+		//String ActNo = itemObject.get("AccountNo").getAsString();
 		String currentReading = itemObject.get("currentReading").getAsString();
 		String date = itemObject.get("date").getAsString();
 		String type = itemObject.get("type").getAsString();
@@ -86,7 +86,7 @@ public class ConsumptionService {
 		
 
 		
-		String output = Obj.updateConsumption(recID, ActNo, currentReading, date, type, readerID, userID); 
+		String output = Obj.updateConsumption(recID, currentReading, date, type, readerID, userID); 
 		return output;
 	}
 	
