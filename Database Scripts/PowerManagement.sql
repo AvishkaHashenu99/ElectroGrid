@@ -24,7 +24,7 @@ add CONSTRAINT foriegn_Key_userID FOREIGN KEY(userID) REFERENCES electrogrid.use
 
 /*Adding database validation to check type inserted to the database  is commercial or residential*/
 ALTER TABLE electrogrid.power_consumption ADD CONSTRAINT 
-type_constraint CHECK (type = 'commercial' OR type = 'residential');
+check_user_type_constraint CHECK (type = 'commercial' OR type = 'residential');
 
 
 
@@ -43,6 +43,11 @@ type_constraint CHECK (type = 'commercial' OR type = 'residential');
   /*Adding foriegn key constraint of power supplier ID of the supplier table to supplier ID of capacity table*/
   ALTER TABLE electrogrid.power_capacity
   add CONSTRAINT foriegn_Key_supplierID FOREIGN KEY(supplierID) REFERENCES electrogrid.power_supplier(powerSupplierID);
+
+
+  /*Check the capacity enter to the system is eco or non-eco*/
+  ALTER TABLE electrogrid.power_capacity ADD CONSTRAINT 
+  environmentally_friendly_constraint CHECK (Type = 'eco' OR type = 'non-eco');
 
 
 

@@ -18,7 +18,7 @@ class checkConsumptionCalculation {
 		int[] result = CalcUtility.calculateUsedUnits(399, "1166345077", "2022-07-04");
 		//399 - 299 = 100
 		
-		assertEquals(result[1] , 101);
+		assertEquals(101 , result[1]);
 
 	}
 
